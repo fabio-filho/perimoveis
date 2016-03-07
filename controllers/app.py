@@ -7,6 +7,11 @@ def index():
     return locals()
 
 
+def index2():
+
+    return locals()
+
+
 
 def blog():
 
