@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
 
@@ -44,6 +44,7 @@
     middle_column = {0: mc0, 1: mc1, 2: mc2}[
     (left_sidebar_enabled and 1 or 0)+(right_sidebar_enabled and 1 or 0)]
     }}
+
 </head>
 
 <body>
@@ -57,29 +58,22 @@
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
+                    <span class="sr-only">{{=T('Toggle navigation')}}</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
                 <!-- navbar-brand is hidden on larger screens, but visible when the menu is collapsed -->
-                <a class="navbar-brand" href="{{=URL('app', 'index')}}">Business Casual</a>
+                <a class="navbar-brand" href="{{=URL('app', 'index')}}">{{=response.title_label}}</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li>
-                        <a href="{{=URL('app', 'index')}}">Home</a>
-                    </li>
-                    <li>
-                        <a href="{{=URL('app', 'about')}}">About</a>
-                    </li>
-                    <li>
-                        <a href="{{=URL('app', 'blog')}}">Blog</a>
-                    </li>
-                    <li>
-                        <a href="{{=URL('app', 'contact')}}">Contact</a>
-                    </li>
+                    {{for mMenuItem in response.menu:}}
+                        <li>
+                            <a href="{{=mMenuItem[2]}}">{{=mMenuItem[0]}}</a>
+                        </li>
+                    {{pass}}
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -101,7 +95,9 @@
 
       <div class="{{=middle_column}}">
         {{block center}}
-        {{include}}
+        <div class="container">
+           {{include}}
+        </div>
         {{end}}
       </div>
 
@@ -140,6 +136,8 @@
         interval: 5000 //changes the speed
     })
     </script>
+
+
 
 </body>
 
