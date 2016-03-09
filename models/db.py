@@ -57,6 +57,11 @@ auth = Auth(db)
 service = Service()
 plugins = PluginManager()
 
+auth.settings.extra_fields['auth_user']= [
+
+  Field("mIsMaster", "boolean", default=False, label=T('Is master'), readable=False, writable=False)
+]
+
 ## create all tables needed by auth if not custom tables
 auth.define_tables(username=False, signature=False)
 

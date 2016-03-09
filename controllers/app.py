@@ -4,27 +4,27 @@
 
 def index():
 
-    return locals()
-
-
-def index2():
-
-    return locals()
-
+    return dict()
 
 
 def blog():
 
-    return None
+    return dict()
 
 
 
 def contact():
 
-    return None
+    return dict()
 
 
 
 def about():
 
-    return None
+    return dict()
+
+
+
+def products():
+
+    return dict()

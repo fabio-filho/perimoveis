@@ -9,7 +9,7 @@ response.logo = A(B('web',SPAN(2),'py'),XML('&trade;&nbsp;'),
                   _class="navbar-brand",_href="http://www.web2py.com/",
                   _id="web2py-logo")
 response.title = request.application.replace('_',' ').title()
-response.title_label = 'Peri Movéis'
+response.title_label = 'Peri Móveis'
 response.subtitle = ''
 
 ## read more at http://dev.w3.org/html5/markup/meta.name.html
@@ -29,7 +29,8 @@ response.menu = [
     (T('Home'), False, URL('app', 'index'), []),
     (T('About'), False, URL('app', 'about'), []),
     (T('Contac'), False, URL('app', 'contact'), []),
-    (T('Products'), False, URL('app', 'products'), [])
+    (T('Products'), False, URL('app', 'products'), []),
+    (T('Management'), False, URL('manager', 'index'), [])
 ]
 
 #########################################################################
