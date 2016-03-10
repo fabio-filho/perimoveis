@@ -12,13 +12,16 @@
             <a class="btn btn-default" href="{{=URL('manager', 'add_home_slide_resource')}}">{{=T('Add an image')}}</a>
         </div>
 
-        <br>
+      </div>
+</div>
 
-        {{for mRow in mRows:}}
-        <div class="col-md-4">
-            <img width="50%" height="50%" src="{{=URL('manager', 'download', args=[mRow.mFile])}}"/>
-        </div>
-        {{pass}}
-
+<div class="row">
+    <div class="box">
+      {{for mRow in mRows:}}
+          <a href="{{=URL('manager', 'download', args=[mRow.mFile])}}" class="thumbnail">
+               <img width="304" height="236" src="{{=URL('manager', 'download', args=[mRow.mFile])}}"
+                      class="img-thumbnail">
+          </a>
+      {{pass}}
     </div>
 </div>
