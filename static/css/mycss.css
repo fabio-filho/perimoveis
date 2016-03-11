@@ -191,3 +191,17 @@ footer p {
         clear: both;
     }
 }
+
+
+.ratio{
+    position:relative;
+    width: 250px;
+    height: 0;
+    padding-bottom: 50% ; /* % of width, defines aspect ratio*/
+
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+
+    
+}
