@@ -18,11 +18,20 @@
 <div class="row">
     <div class="box">
         {{for mRow in mRows:}}
-          <div class="span2 col-md-4">
-            <div style="width:250px; height: 150px" >
-              <a href="{{=URL('manager', 'download', args=[mRow.mFile])}}" >
-                   <div class="ratio thumbnail" style="background-image:url('{{=URL('manager', 'download', args=[mRow.mFile])}}')" ></div>
-              </a>
+          <div class="col-md-4">
+            <div class="thumbnail">
+                <div >
+                  <a href="{{=URL('manager', 'download', args=[mRow.mFile])}}" >
+                       <div class="ratio" style="background-image:url('{{=URL('manager', 'download', args=[mRow.mFile])}}')" ></div>
+                  </a>
+                </div>
+                <div class="caption">
+                  <h3>{{=mRow.mLabel}}</h3>
+                  <p>
+                    <a href="#" class="btn btn-primary" role="button">{{=T('View')}}</a>
+                    <a href="#" class="btn btn-default" role="button">{{=T('Remove')}}</a>
+                  </p>
+                </div>
             </div>
           </div>
         {{pass}}
