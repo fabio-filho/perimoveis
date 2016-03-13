@@ -5,23 +5,22 @@ try:
 except:
     import Image
 
+class MyImage:
 
-class Values:
+    THUMBNAIL_DIMENSION = [250, 150]
+
+    IMAGE_FULLHD_DIMENSION = [1980, 1080]
+    IMAGE_HD_DIMENSION = [1280, 720]
+    IMAGE_GOOD_DIMENSION = [960, 540]
+
     @staticmethod
-    def dimensionDefault():
-        return [250, 150]
-
-class Thumbnail:
-
-
-    @staticmethod
-    def toThumbnail(image, box=Values.dimensionDefault(), fit=True, name="thumb"):
+    def tranform(image, box=THUMBNAIL_DIMENSION, fit=True, name="thumb"):
         '''Downsample the image.
          @param img: Image -  an Image-object
          @param box: tuple(x, y) - the bounding box of the result image
          @param fit: boolean - crop the image to fill the box
         '''
-        
+
         if image:
             request = current.request
             img = Image.open(request.folder + 'uploads/' + image)
@@ -50,6 +49,6 @@ class Thumbnail:
             img.thumbnail(box, Image.ANTIALIAS)
 
             root, ext = os.path.splitext(image)
-            thumb = '%s_%s%s' % (root, name, ext)
+            thumb = '%s_%s__%sx%s_%s' % (root, name, box[0], box[1], ext)
             img.save(request.folder + 'uploads/' + thumb)
             return thumb

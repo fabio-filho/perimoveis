@@ -30,7 +30,7 @@ response.menu = [
     (T('About'), False, URL('app', 'about'), []),
     (T('Contact'), False, URL('app', 'contact'), []),
     (T('Products'), False, URL('app', 'products'), []),
-    (T('Account Manager'), False, URL('manager', 'index'), [])
+    (T('Account'), False, URL('manager', 'index'), [])
 ]
 
 #########################################################################

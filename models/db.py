@@ -59,7 +59,8 @@ plugins = PluginManager()
 
 auth.settings.extra_fields['auth_user']= [
 
-  Field("mIsMaster", "boolean", default=False, label=T('Is master'), readable=False, writable=False)
+  Field("mIsMaster", "boolean", default=False, label=T('Is master'), readable=False, writable=False),
+  Field("mIsAdmin", "boolean", default=False, label=T('Is admin'), readable=False, writable=False)
 ]
 
 ## create all tables needed by auth if not custom tables

@@ -109,7 +109,30 @@ class Utilities:
 	def __init__(self):
 		pass
 
+	@staticmethod
+	def is_master():
+		try:
+			mAuth = db.auth_user(auth.user_id)
+			if mAuth.mIsMaster:
+				return True
+			else:
+				return False
+			pass
+		except Exception as e:
+			return False
 
+
+	@staticmethod
+	def is_admin():
+		try:
+			mAuth = db.auth_user(auth.user_id)
+			if mAuth.mIsAdmin or mAuth.mIsMaster:
+				return True
+			else:
+				return False
+			pass
+		except Exception as e:
+			return False
 
 	#Get date to make a query in the future.
 	def getDate(self, mYearIndex=1, mMonthIndex=2, mDayIndex=3 ):
@@ -209,6 +232,16 @@ class Convert:
 
 
 class Validator:
+
+	@staticmethod
+	def master(mPage = URL('default', 'index')):
+		if not Utilities.is_master():
+			redirect(mPage)
+
+	@staticmethod
+	def admin(mPage = URL('default', 'index')):
+		if not Utilities.is_admin():
+			redirect(mPage)
 
 	@staticmethod
 	def is_integer( mString):
@@ -443,6 +476,14 @@ class MyFile:
 	def close(self):
 		if not self.mFile == None:
 			self.mFile.close()
+
+	def remove(self):
+		try:
+			import os
+			os.remove(self.mPath)
+			pass
+		except Exception as e:
+			print e
 
 	@staticmethod
 	def exists(mFile):

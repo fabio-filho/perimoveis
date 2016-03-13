@@ -69,9 +69,52 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    {{for mMenuItem in response.menu:}}
+                    {{for mIndex in range(len(response.menu)):}}
+                        {{mMenuItem = response.menu[mIndex]}}
                         <li>
-                            <a  href="{{=mMenuItem[2]}}">{{=mMenuItem[0]}}</a>
+                            {{if mIndex < len(response.menu)-1: }}
+                            <a href="{{=mMenuItem[2]}}">{{=mMenuItem[0]}}</a>
+                            {{else:}}
+
+                                {{if not auth.is_logged_in():}}
+                                    <a href="{{=mMenuItem[2]}}">
+                                      <span  class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                      {{=mMenuItem[0]}}
+                                    </a>
+
+                                {{else:}}
+                                      {{
+                                        mAuth = db.auth_user(auth.user_id)
+                                      }}
+                                      <ul class="nav nav-pills">
+
+                                          <li role="presentation" class="dropdown">
+                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                                              <span  class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                              {{=mAuth.first_name}} {{=mAuth.last_name}}
+                                               <span class="caret"></span>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                              <li><a href="#">{{=T('Edit profile')}}</a></li>
+                                              <li role="separator" class="divider"></li>
+                                              {{if Utilities.is_admin():}}
+                                                  <li><a href="{{=URL('manager', 'index')}}"><b>{{=T('Managment')}}</b></a></li>                                                  
+                                                  <li role="separator" class="divider"></li>
+                                              {{pass}}
+                                              <li><a href="#">{{=T('Whish list')}}</a></li>
+                                              <li><a href="#">{{=T('History')}}</a></li>
+                                              <li role="separator" class="divider"></li>
+                                              <li> <a href="{{=URL('default', 'user', args='logout')}}">
+                                                 {{=T('Logout')}}
+                                                 <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                                               </a>
+                                             </li>
+                                            </ul>
+                                          </li>
+                                     </ul>
+
+                                {{pass}}
+                            {{pass}}
                         </li>
                     {{pass}}
                 </ul>
@@ -96,42 +139,6 @@
       <div class="{{=middle_column}}">
         {{block center}}
         <div class="container">
-          {{if auth.is_logged_in():}}
-           <div class="row">
-               <div class="box">
-                 {{
-                   mAuth = db.auth_user(auth.user_id)
-                 }}
-
-                 <div>
-
-                 </div>
-
-
-
-                <div class="btn-group">
-                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span  class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                    {{=mAuth.first_name}} {{=mAuth.last_name}}
-                    <span class="caret"></span>
-                  </button>
-                  <ul class="dropdown-menu">
-                    <li><a href="#">{{=T('Edit profile')}}</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a href="#">{{=T('Whish list')}}</a></li>
-                    <li><a href="#">{{=T('History')}}</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li> <a href="{{=URL('default', 'user', args='logout')}}">
-                       {{=T('Logout')}}
-                       <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-                     </a>
-                   </li>
-                  </ul>
-                </div>
-
-               </div>
-           </div>
-           {{pass}}
            {{include}}
         </div>
         {{end}}
