@@ -28,9 +28,9 @@ response.google_analytics_id = None
 response.menu = [
     (T('Home'), False, URL('app', 'index'), []),
     (T('About'), False, URL('app', 'about'), []),
-    (T('Contac'), False, URL('app', 'contact'), []),
+    (T('Contact'), False, URL('app', 'contact'), []),
     (T('Products'), False, URL('app', 'products'), []),
-    (T('Management'), False, URL('manager', 'index'), [])
+    (T('Account Manager'), False, URL('manager', 'index'), [])
 ]
 
 #########################################################################

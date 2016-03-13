@@ -12,6 +12,38 @@
         <div class="col-md-6 col-md-offset-3">
           {{=mForm}}
         </div>
+
+        <br>
+        
+        <div class="col-md-6 col-md-offset-3">
+           <div class="thumbnail">
+             <div class="caption">
+               <h3>{{=T('Preview')}}</h3>
+             </div>
+             <img id="mImagePreview"/>
+           </div>
+        </div>
+
         <div class="clearfix"></div>
     </div>
 </div>
+
+
+<script>
+
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#mImagePreview').attr('src', e.target.result);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+$("#tbHomePageSlideResources_mImage").change(function(){
+    readURL(this);
+});
+</script>

@@ -210,7 +210,8 @@ class Convert:
 
 class Validator:
 
-	def is_integer(self, mString):
+	@staticmethod
+	def is_integer( mString):
 
 		try:
 			mNumber = int(mString)
@@ -220,7 +221,8 @@ class Validator:
 			return False
 
 
-	def has_args(self, mLength):
+	@staticmethod
+	def has_args( mLength):
 
 		if len(request.args)==mLength:
 			return True
@@ -228,8 +230,8 @@ class Validator:
 			return False
 
 
-
-	def has_vars(self, mLength):
+	@staticmethod
+	def has_vars( mLength):
 
 		if len(request.vars)==mLength:
 			return True
@@ -237,9 +239,8 @@ class Validator:
 			return False
 
 
-
-
-	def valide_args(self, mLength, mUrl = URL('default', 'index')):
+	@staticmethod
+	def valide_args( mLength, mUrl = URL('default', 'index')):
 		#print mLength
 		if not len(request.args)==mLength:
 			#print mUrl
@@ -248,8 +249,8 @@ class Validator:
 
 
 
-
-	def valide_minimum_args(self, mLength, mUrl = URL('default', 'index')):
+	@staticmethod
+	def valide_minimum_args( mLength, mUrl = URL('default', 'index')):
 		#print mLength
 		if not len(request.args)>=mLength:
 			#print mUrl
@@ -258,8 +259,8 @@ class Validator:
 
 
 
-
-	def valide_minimum_vars(self, mLength, mUrl = URL('default', 'index')):
+	@staticmethod
+	def valide_minimum_vars( mLength, mUrl = URL('default', 'index')):
 		#print mLength
 		if not len(request.vars)>=mLength:
 			#print mUrl
@@ -267,8 +268,8 @@ class Validator:
 		pass
 
 
-
-	def has_minimum_vars(self, mLength, mUrl = URL('default', 'index')):
+	@staticmethod
+	def has_minimum_vars( mLength, mUrl = URL('default', 'index')):
 
 		if not len(request.vars)>=mLength:
 			return False
@@ -277,8 +278,9 @@ class Validator:
 
 
 
-
-	def form_process(self, mForm, mUrl = URL('default', 'index'), mOnSuccess=T('Added successfully!'), mOnError=T('Erros in form, please check it out.'), mValidation=None):
+	@staticmethod
+	def form_process( mForm, mUrl = URL('default', 'index'), mSuccessMessage=T('Added successfully!'),
+						mErrorMessage=T('Erros in form, please check it out.'), mValidation=None, mOnAccepted=None, mOnErrors=None):
 
 		processed = None
 
@@ -288,18 +290,22 @@ class Validator:
 			processed = mForm.process(onvalidation=mValidation)
 
 		if processed.accepted:
-			MessageBox(T(mOnSuccess)).showSuccess()
+			if not mOnAccepted == None:
+				mOnAccepted(mForm)
+			MessageBox(T(mSuccessMessage)).showSuccess()
 			redirect(mUrl)
 		elif mForm.errors:
-			MessageBox(T(mOnError)).showError()
+			if not mOnErrors == None:
+				mOnErrors(mForm)
+			MessageBox(T(mErrorMessage)).showError()
 
 		pass
 
 
 
 
-
-	def check_is_group_owner(self, mId, mTable, mUrl=URL('default', 'index')):
+	@staticmethod
+	def check_is_group_owner( mId, mTable, mUrl=URL('default', 'index')):
 
 		try:
 			mGroup = db.auth_group(id=db(auth.user_id == db.auth_membership.user_id).select()[0].group_id)
@@ -319,7 +325,7 @@ class Validator:
 
 
 
-
+	@staticmethod
 	def get_date():
 
 		mYear = request.now.year

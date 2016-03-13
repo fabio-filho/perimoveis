@@ -4,7 +4,7 @@
 
 def index():
 
-    return dict()
+    return dict(mRows=db(db.tbHomePageSlideResources.id>0).select())
 
 
 def blog():
