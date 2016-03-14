@@ -18,7 +18,7 @@ def home_slide_resources():
 def add_home_slide_resource():
     Validator.admin()
 
-    mForm = SQLFORM(db.tbHomePageSlideResources, submit_button=T('Submit'))
+    mForm = SQLFORM(db.tbHomePageSlideResources, submit_button=T('Add an image'))
 
     Validator.form_process(mForm, URL("manager", "home_slide_resources"), mOnAccepted=add_home_slide_resource_accepted)
 
@@ -42,8 +42,9 @@ def add_home_slide_resource_accepted(mForm):
 def download():
     return response.download(request, db)
 
+@auth.requires_login()
 def remove_image():
-    
+
     Validator.admin()
     Validator.valide_args(1)
 

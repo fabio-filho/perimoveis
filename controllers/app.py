@@ -26,5 +26,5 @@ def about():
 
 
 def products():
-
+    redirect(URL('product', 'index'))
     return dict()
