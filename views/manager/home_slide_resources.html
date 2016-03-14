@@ -22,13 +22,13 @@
         {{for mRow in mRows:}}
           <div class="col-sm-6 col-md-4">
             <div class="thumbnail">
-                <a href="{{=URL('manager', 'download', args=[mRow.mImage])}}" >
-                     <img src='{{=URL('manager', 'download', args=[mRow.mThumbnail])}}'/>
+                <a href="{{=URL('app', 'download', args=[mRow.mImage])}}" >
+                     <img src='{{=URL('app', 'download', args=[mRow.mThumbnail])}}'/>
                 </a>
                 <div class="caption">
                   <h3>{{=mRow.mLabel}}</h3>
                   <p>
-                    <a href="{{=URL('manager', 'download', args=[mRow.mImage])}}" class="btn btn-default" role="button">
+                    <a href="{{=URL('app', 'download', args=[mRow.mImage])}}" class="btn btn-default" role="button">
                       {{=T('View')}}
                       <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
                     </a>

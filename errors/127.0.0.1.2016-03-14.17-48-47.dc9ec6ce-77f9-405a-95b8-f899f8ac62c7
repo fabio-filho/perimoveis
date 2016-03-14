@@ -1,0 +1,21 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.TypeError'> not indexable"
+p3
+sS'layer'
+p4
+S'/Users/fabiofilho/Documents/Deployment/Web2Py/web2py/applications/perimoveis/controllers/product.py'
+p5
+sS'code'
+p6
+S'# -*- coding: utf-8 -*-\n\n\n\n\ndef index():\n\n    return dict(mRows=db(db.tbProducts.id>0).select())\n\n\n\n@auth.requires_login()\ndef add():\n    Validator.admin()\n\n    mForm=SQLFORM(db.tbProducts, submit_button=T(\'Save and add an image\'))\n\n    Validator.form_process(mForm, URL(\'product\', \'index\'))\n\n    return dict(mForm=mForm)\n\n\n\n@auth.requires_login()\ndef edit():\n    Validator.admin()\n    Validator.valide_args(1)\n\n    db.tbProducts.id.readable = False\n\n    mForm=SQLFORM(db.tbProducts,\n            db.tbProducts(request.args[0]),\n            submit_button=T(\'Save changes\'))\n\n    Validator.form_process(mForm, URL(\'product\', \'index\'))\n\n    mImages = db(db.tbProductsUploads.mProduct==request.args[0]).select()\n    \n    return dict(mForm=mForm, mImages=mImages,mFormImage=get_image_add_form(request.args[0]))\n\n\n\n\n@auth.requires_login()\ndef get_image_add_form(mProductId):\n\n      Validator.admin()\n\n      mForm = FORM(LABEL(T("File")+"(s):"), INPUT(_name=\'mFiles\', _type=\'file\', _multiple=\'\'),\n          BR(),INPUT(_type=\'submit\', _value=T("Send images")))\n\n      if mForm.accepts(request.vars, formname="mForm"):\n\n        if hasattr(request.vars, \'mFiles\'):\n\n          if len(request.vars.mFiles) > 0:\n            mFiles = request.vars[\'mFiles\']\n            if not isinstance(mFiles, list):\n              mFiles = [files]\n\n            for f in mFiles:\n              print f.filename\n              mFile = db.tbProductsUploads.mFile.store(f, f.filename)\n              db.tbProductsUploads.insert(mFile=mFile, mFilename=f.filename, mProduct=mProductId)\n              db.commit()\n\n            #redirect(URL(\'product\', \'index\'))\n          else:\n            mForm.errors.mFiles = "No files selected"\n\n      return mForm\n\nresponse._vars=response._caller(edit)\n'
+p7
+sS'snapshot'
+p8
+(dp9
+sS'traceback'
+p10
+S'Traceback (most recent call last):\n  File "/Users/fabiofilho/Documents/Deployment/Web2Py/web2py/gluon/restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "/Users/fabiofilho/Documents/Deployment/Web2Py/web2py/applications/perimoveis/controllers/product.py", line 73, in <module>\n  File "/Users/fabiofilho/Documents/Deployment/Web2Py/web2py/gluon/globals.py", line 412, in <lambda>\n    self._caller = lambda f: f()\n  File "/Users/fabiofilho/Documents/Deployment/Web2Py/web2py/gluon/tools.py", line 4236, in f\n    return action(*a, **b)\n  File "/Users/fabiofilho/Documents/Deployment/Web2Py/web2py/applications/perimoveis/controllers/product.py", line 39, in edit\n    return dict(mForm=mForm, mImages=mImages,mFormImage=get_image_add_form(request.args[0]))\n  File "/Users/fabiofilho/Documents/Deployment/Web2Py/web2py/gluon/tools.py", line 4236, in f\n    return action(*a, **b)\n  File "/Users/fabiofilho/Documents/Deployment/Web2Py/web2py/applications/perimoveis/controllers/product.py", line 56, in get_image_add_form\n    if len(request.vars.mFiles) > 0:\n  File "/usr/local/Cellar/python/2.7.11/Frameworks/Python.framework/Versions/2.7/lib/python2.7/cgi.py", line 599, in __len__\n    return len(self.keys())\n  File "/usr/local/Cellar/python/2.7.11/Frameworks/Python.framework/Versions/2.7/lib/python2.7/cgi.py", line 582, in keys\n    raise TypeError, "not indexable"\nTypeError: not indexable\n'
+p11
+s.

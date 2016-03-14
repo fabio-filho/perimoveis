@@ -1,3 +1,5 @@
+#TO INSTALL pip install Pillow
+
 from gluon import current
 import os
 try:
@@ -14,7 +16,12 @@ class MyImage:
     IMAGE_GOOD_DIMENSION = [960, 540]
 
     @staticmethod
-    def tranform(image, box=THUMBNAIL_DIMENSION, fit=True, name="thumb"):
+    def cut(mImage, mResolution=THUMBNAIL_DIMENSION, mFit=True):
+        return MyImage.transform_engine(mImage, mResolution, mFit)
+
+
+    @staticmethod
+    def transform_engine(image, box=THUMBNAIL_DIMENSION, fit=True):
         '''Downsample the image.
          @param img: Image -  an Image-object
          @param box: tuple(x, y) - the bounding box of the result image
@@ -48,7 +55,15 @@ class MyImage:
             #Resize the image with best quality algorithm ANTI-ALIAS
             img.thumbnail(box, Image.ANTIALIAS)
 
-            root, ext = os.path.splitext(image)
-            thumb = '%s_%s__%sx%s_%s' % (root, name, box[0], box[1], ext)
-            img.save(request.folder + 'uploads/' + thumb)
-            return thumb
+            return img
+
+
+    @staticmethod
+    def transform(image, box=THUMBNAIL_DIMENSION, fit=True, name="thumb"):
+
+        request = current.request
+        img = MyImage.transform_engine(image, box, fit)
+        root, ext = os.path.splitext(image)
+        thumb = '%s_%s__%sx%s_%s' % (root, name, box[0], box[1], ext)
+        img.save(request.folder + 'uploads/' + thumb)
+        return thumb

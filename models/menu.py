@@ -36,5 +36,3 @@ response.menu = [
 #########################################################################
 ## provide shortcuts for development. remove in production
 #########################################################################
-
-if "auth" in locals(): auth.wikimenu()

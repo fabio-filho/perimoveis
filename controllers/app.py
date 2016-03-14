@@ -28,3 +28,9 @@ def about():
 def products():
     redirect(URL('product', 'index'))
     return dict()
+
+
+
+
+def download():
+    return response.download(request, db)
