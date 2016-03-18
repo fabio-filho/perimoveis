@@ -24,8 +24,9 @@ db.define_table('tbProducts',
 )
 
 
-db.define_table('tbProductsUploads',
+db.define_table('tbProductsImageUploads',
     Field('mProduct', 'reference tbProducts'),
     Field('mFilename', represent = lambda x, row: "None" if x == None else x[:45]),
-    Field('mFile', 'upload', uploadseparate=True, requires=IS_NOT_EMPTY()),
+    Field('mFile', 'upload', autodelete=True, requires=IS_NOT_EMPTY()),
+    Field('mThumbnail', 'string', requires=IS_NOT_EMPTY()),
     auth.signature)

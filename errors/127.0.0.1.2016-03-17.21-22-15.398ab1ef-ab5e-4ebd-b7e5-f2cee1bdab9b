@@ -1,0 +1,21 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.AttributeError'> 'str' object has no attribute 'filename'"
+p3
+sS'layer'
+p4
+S'/Users/fabiofilho/Documents/Deployment/Web2Py/web2py/applications/perimoveis/controllers/product.py'
+p5
+sS'code'
+p6
+S'# -*- coding: utf-8 -*-\n\n\n\n\ndef index():\n\n    return dict(mRows=db(db.tbProducts.id>0).select(orderby=db.tbProducts.mName))\n\n\n@auth.requires_login()\ndef manager():\n    Validator.admin()\n    return dict(mRows=db(db.tbProducts.id>0).select(orderby=db.tbProducts.mName))\n\n\n\n@auth.requires_login()\ndef add():\n    Validator.admin()\n\n    mForm=SQLFORM(db.tbProducts, submit_button=T(\'Save and add an image\'))\n\n    Validator.form_process(mForm, mUrl=None, mOnAccepted=add_accepted)\n\n    return dict(mForm=mForm)\n\n\n\n@auth.requires_login()\ndef add_accepted(mForm):\n    redirect(URL(\'product\', \'edit\', args=[mForm.vars.id]))\n    pass\n\n\n@auth.requires_login()\ndef edit():\n    Validator.admin()\n    Validator.valide_args(1)\n\n    db.tbProducts.id.readable = False\n\n    mForm=SQLFORM(db.tbProducts,\n            db.tbProducts(request.args[0]),\n            submit_button=T(\'Save changes\'))\n\n    Validator.form_process(mForm, URL(\'product\', \'manager\'))\n\n    mImages = db(db.tbProductsImageUploads.mProduct==request.args[0]).select()\n\n    return dict(mForm=mForm, mRows=mImages, mFormImage=get_image_add_form(request.args[0]))\n\n\n\n\n@auth.requires_login()\ndef get_image_add_form(mProductId):\n      from lib_image import MyImage\n      Validator.admin()\n\n      mForm = FORM(LABEL(T("File")+"(s):"), INPUT(_id="tbProductsImageUploads_mTempImage", _name=\'mFiles\', _type=\'file\', _multiple=\'\'),\n          BR(),INPUT(_class="btn btn-primary", _type=\'submit\', _value=T("Send images")))\n\n      if mForm.accepts(request.vars, formname="mForm"):\n\n        if hasattr(request.vars, \'mFiles\'):\n\n          mFiles = request.vars[\'mFiles\']\n          print mFiles\n          if not isinstance(mFiles, list):\n            mFiles = [mFiles]\n\n          if len(mFiles) > 0:\n\n            for f in mFiles:\n              mFile = db.tbProductsImageUploads.mFile.store(f, f.filename)\n              db.tbProductsImageUploads.insert(mFile=mFile, mFilename=f.filename,\n                                mProduct=mProductId, mThumbnail=MyImage.transform(mFile, MyImage.THUMBNAIL_DIMENSION))\n              db.commit()\n\n            redirect(URL(\'product\', \'edit\', args=[mProductId]))\n          else:\n            mForm.errors.mFiles = "No files selected"\n\n      return mForm\n\nresponse._vars=response._caller(edit)\n'
+p7
+sS'snapshot'
+p8
+(dp9
+sS'traceback'
+p10
+S'Traceback (most recent call last):\n  File "/Users/fabiofilho/Documents/Deployment/Web2Py/web2py/gluon/restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "/Users/fabiofilho/Documents/Deployment/Web2Py/web2py/applications/perimoveis/controllers/product.py", line 87, in <module>\n  File "/Users/fabiofilho/Documents/Deployment/Web2Py/web2py/gluon/globals.py", line 412, in <lambda>\n    self._caller = lambda f: f()\n  File "/Users/fabiofilho/Documents/Deployment/Web2Py/web2py/gluon/tools.py", line 4236, in f\n    return action(*a, **b)\n  File "/Users/fabiofilho/Documents/Deployment/Web2Py/web2py/applications/perimoveis/controllers/product.py", line 51, in edit\n    return dict(mForm=mForm, mRows=mImages, mFormImage=get_image_add_form(request.args[0]))\n  File "/Users/fabiofilho/Documents/Deployment/Web2Py/web2py/gluon/tools.py", line 4236, in f\n    return action(*a, **b)\n  File "/Users/fabiofilho/Documents/Deployment/Web2Py/web2py/applications/perimoveis/controllers/product.py", line 76, in get_image_add_form\n    mFile = db.tbProductsImageUploads.mFile.store(f, f.filename)\nAttributeError: \'str\' object has no attribute \'filename\'\n'
+p11
+s.

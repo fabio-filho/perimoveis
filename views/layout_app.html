@@ -193,11 +193,18 @@
     <!-- Bootstrap Core JavaScript -->
     <script src="{{=URL('static', 'js/bootstrap.min.js')}}"></script>
 
+    <!-- Bootstrap List -->
+    <script src="{{=URL('static', 'js/bootstrap-list.js')}}"></script>
+
     <!-- Script to Activate the Carousel -->
     <script>
     $('.carousel').carousel({
         interval: 5000 //changes the speed
     })
+    </script>
+
+    <script>
+        $('#searchlist').btsListFilter('#searchinput', {itemChild: 'span'});
     </script>
 
 

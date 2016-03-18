@@ -1,0 +1,21 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.TypeError'> pop expected at least 1 arguments, got 0"
+p3
+sS'layer'
+p4
+S'/Users/fabiofilho/Documents/Deployment/Web2Py/web2py/applications/perimoveis/controllers/product.py'
+p5
+sS'code'
+p6
+S'# -*- coding: utf-8 -*-\n\n\n\n\ndef index():\n\n    mRows = db(db.tbProducts.id>0).select(orderby=db.tbProducts.mName)\n    mThumbnailList = []\n\n    for mIndex in range(0, len(mRows)):\n\n        mResult = db(db.tbProductsImageUploads.mProduct==mRows[mIndex].id).select()\n        if len(mResult)>0:\n            mThumbnailList.append(mResult.first().mThumbnail)\n        else:\n            mRows[mIndex].pop()\n\n    return dict(mRows=mRows, mThumbnailList=mThumbnailList)\n\n\n@auth.requires_login()\ndef manager():\n    Validator.admin()\n    return dict(mRows=db(db.tbProducts.id>0).select(orderby=db.tbProducts.mName))\n\n\n\n@auth.requires_login()\ndef add():\n    Validator.admin()\n\n    mForm=SQLFORM(db.tbProducts, submit_button=T(\'Save and add an image\'))\n\n    Validator.form_process(mForm, mUrl=None, mOnAccepted=add_accepted)\n\n    return dict(mForm=mForm)\n\n\n\n@auth.requires_login()\ndef add_accepted(mForm):\n    redirect(URL(\'product\', \'edit\', args=[mForm.vars.id]))\n    pass\n\n\n@auth.requires_login()\ndef edit():\n    Validator.admin()\n    Validator.valide_args(1)\n\n    db.tbProducts.id.readable = False\n\n    mForm=SQLFORM(db.tbProducts,\n            db.tbProducts(request.args[0]),\n            submit_button=T(\'Save changes\'))\n\n    Validator.form_process(mForm, URL(\'product\', \'manager\'))\n\n    mImages = db(db.tbProductsImageUploads.mProduct==request.args[0]).select()\n\n    return dict(mForm=mForm, mRows=mImages, mFormImage=get_image_add_form(request.args[0]))\n\n\n\n\n@auth.requires_login()\ndef get_image_add_form(mProductId):\n      from lib_image import MyImage\n      Validator.admin()\n\n      mForm = FORM(LABEL(T("File")+"(s):"), INPUT(_id="tbProductsImageUploads_mTempImage", _name=\'mFiles\', _type=\'file\', _multiple=\'\'),\n          BR(),INPUT(_class="btn btn-primary", _type=\'submit\', _value=T("Send images")))\n\n      if mForm.accepts(request.vars, formname="mForm"):\n\n        if hasattr(request.vars, \'mFiles\'):\n\n          mFiles = request.vars[\'mFiles\']\n          if mFiles == \'\':\n              redirect(URL(\'product\', \'edit\', args=[mProductId]))\n\n          if not isinstance(mFiles, list):\n            mFiles = [mFiles]\n\n          if len(mFiles) > 0:\n\n            for f in mFiles:\n              mFile = db.tbProductsImageUploads.mFile.store(f, f.filename)\n              db.tbProductsImageUploads.insert(mFile=mFile, mFilename=f.filename,\n                                mProduct=mProductId, mThumbnail=MyImage.transform(mFile, MyImage.THUMBNAIL_DIMENSION))\n              db.commit()\n\n            redirect(URL(\'product\', \'edit\', args=[mProductId]))\n          else:\n            mForm.errors.mFiles = "No files selected"\n\n      return mForm\n\nresponse._vars=response._caller(index)\n'
+p7
+sS'snapshot'
+p8
+(dp9
+sS'traceback'
+p10
+S'Traceback (most recent call last):\n  File "/Users/fabiofilho/Documents/Deployment/Web2Py/web2py/gluon/restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "/Users/fabiofilho/Documents/Deployment/Web2Py/web2py/applications/perimoveis/controllers/product.py", line 100, in <module>\n  File "/Users/fabiofilho/Documents/Deployment/Web2Py/web2py/gluon/globals.py", line 412, in <lambda>\n    self._caller = lambda f: f()\n  File "/Users/fabiofilho/Documents/Deployment/Web2Py/web2py/applications/perimoveis/controllers/product.py", line 17, in index\n    mRows[mIndex].pop()\n  File "/Users/fabiofilho/Documents/Deployment/Web2Py/web2py/gluon/packages/dal/pydal/helpers/classes.py", line 66, in <lambda>\n    pop = lambda self, *args, **kwargs: self.__dict__.pop(*args, **kwargs)\nTypeError: pop expected at least 1 arguments, got 0\n'
+p11
+s.

@@ -5,7 +5,31 @@
 
 def index():
 
-    return dict(mRows=db(db.tbProducts.id>0).select())
+    mRowsTemp = db(db.tbProducts.id>0).select(orderby=db.tbProducts.mName)
+    mThumbnailList = []
+    mRows = []
+    for mIndex in range(0, len(mRowsTemp)):
+        mResult = db(db.tbProductsImageUploads.mProduct==mRowsTemp[mIndex].id).select()
+        if len(mResult) > 0:
+            mThumbnailList.append(mResult.first().mThumbnail)
+            mRows.append(mRowsTemp[mIndex])
+
+    return dict(mRows=mRows, mThumbnailList=mThumbnailList)
+
+
+def view():
+    Validator.valide_args(1)
+
+    mImages = db(db.tbProductsImageUploads.mProduct== request.args[0]).select()
+    if len(mImages) <= 0:
+        redirect(URL('app', 'index'))
+
+    return dict(mRow=db.tbProducts(request.args[0]), mImages=mImages)
+
+@auth.requires_login()
+def manager():
+    Validator.admin()
+    return dict(mRows=db(db.tbProducts.id>0).select(orderby=db.tbProducts.mName))
 
 
 
@@ -15,10 +39,16 @@ def add():
 
     mForm=SQLFORM(db.tbProducts, submit_button=T('Save and add an image'))
 
-    Validator.form_process(mForm, URL('product', 'index'))
+    Validator.form_process(mForm, mUrl=None, mOnAccepted=add_accepted)
 
     return dict(mForm=mForm)
 
+
+
+@auth.requires_login()
+def add_accepted(mForm):
+    redirect(URL('product', 'edit', args=[mForm.vars.id]))
+    pass
 
 
 @auth.requires_login()
@@ -32,53 +62,44 @@ def edit():
             db.tbProducts(request.args[0]),
             submit_button=T('Save changes'))
 
-    Validator.form_process(mForm, URL('product', 'index'))
+    Validator.form_process(mForm, URL('product', 'manager'))
 
-    mImages = db(db.tbProductsUploads.mProduct==request.args[0]).select()
+    mImages = db(db.tbProductsImageUploads.mProduct==request.args[0]).select()
 
-    return dict(mForm=mForm, mImages=mImages,mFormImage=get_image_add_form(request.args[0]))
+    return dict(mForm=mForm, mRows=mImages, mFormImage=get_image_add_form(request.args[0]))
 
 
 
 
 @auth.requires_login()
 def get_image_add_form(mProductId):
-
+      from lib_image import MyImage
       Validator.admin()
 
-      mForm = FORM(LABEL(T("File")+"(s):"), INPUT(_name='mFiles', _type='file', _multiple=''),
-          BR(),INPUT(_type='submit', _value=T("Send images")))
+      mForm = FORM(LABEL(T("File")+"(s):"), INPUT(_id="tbProductsImageUploads_mTempImage", _name='mFiles', _type='file', _multiple=''),
+          BR(),INPUT(_class="btn btn-primary", _type='submit', _value=T("Send images")))
 
       if mForm.accepts(request.vars, formname="mForm"):
 
         if hasattr(request.vars, 'mFiles'):
 
-          #fix this method to accepts one file
-          #if isinstance(e, list):
-          print '()())()()()()()()', len(request.vars.mFiles)
-          if len(request.vars.mFiles) > 0:
-            mFiles = request.vars['mFiles']
-            if not isinstance(mFiles, list):
-              mFiles = [files]
+          mFiles = request.vars['mFiles']
+          if mFiles == '':
+              redirect(URL('product', 'edit', args=[mProductId]))
+
+          if not isinstance(mFiles, list):
+            mFiles = [mFiles]
+
+          if len(mFiles) > 0:
 
             for f in mFiles:
-              mFile = db.tbProductsUploads.mFile.store(f, f.filename)
-              db.tbProductsUploads.insert(mFile=mFile, mFilename=f.filename, mProduct=mProductId)
+              mFile = db.tbProductsImageUploads.mFile.store(f, f.filename)
+              db.tbProductsImageUploads.insert(mFile=mFile, mFilename=f.filename,
+                                mProduct=mProductId, mThumbnail=MyImage.transform(mFile, MyImage.THUMBNAIL_DIMENSION))
               db.commit()
 
-            #redirect(URL('product', 'index'))
+            redirect(URL('product', 'edit', args=[mProductId]))
           else:
             mForm.errors.mFiles = "No files selected"
 
       return mForm
-
-
-@auth.requires_login()
-def get_cut_image():
-
-    Validator.admin()
-    Validator.valide_args(1)
-
-    from lib_image import MyImage
-    #save file in a temp file and after remove it
-    return MyImage.cut(URL('app', 'download', args=[db.tbProductsUploads(request.args[0]).mFile]))

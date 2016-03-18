@@ -1,0 +1,21 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.Exception'> tostring() has been removed. Please call tobytes() instead."
+p3
+sS'layer'
+p4
+S'/Users/fabiofilho/Documents/Deployment/Web2Py/web2py/applications/perimoveis/views/product/get_cut_image.html'
+p5
+sS'code'
+p6
+S'response.write(\'<img src="data:image/png;base64,\', escape=False)\nresponse.write(mImage.tostring())\nresponse.write(\'"/>\\n\', escape=False)'
+p7
+sS'snapshot'
+p8
+(dp9
+sS'traceback'
+p10
+S'Traceback (most recent call last):\n  File "/Users/fabiofilho/Documents/Deployment/Web2Py/web2py/gluon/restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "/Users/fabiofilho/Documents/Deployment/Web2Py/web2py/applications/perimoveis/views/product/get_cut_image.html", line 2, in <module>\n  File "/usr/local/lib/python2.7/site-packages/PIL/Image.py", line 695, in tostring\n    "Please call tobytes() instead.")\nException: tostring() has been removed. Please call tobytes() instead.\n'
+p11
+s.

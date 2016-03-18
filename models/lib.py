@@ -106,8 +106,17 @@ class MyForms:
 
 class Utilities:
 
-	def __init__(self):
-		pass
+	@staticmethod
+	def get_beautiful_price(mPrice):
+		mPrice = str(round(mPrice, 2)).replace(".", ",")
+
+		try:
+			if mPrice[:-2][len(mPrice[:-2])-1] == ",":
+				return "R$"+ mPrice
+		except:
+			pass
+
+		return "R$"+ mPrice + "0"
 
 	@staticmethod
 	def is_master():
@@ -326,7 +335,8 @@ class Validator:
 			if not mOnAccepted == None:
 				mOnAccepted(mForm)
 			MessageBox(T(mSuccessMessage)).showSuccess()
-			redirect(mUrl)
+			if not mUrl == None:
+				redirect(mUrl)
 		elif mForm.errors:
 			if not mOnErrors == None:
 				mOnErrors(mForm)

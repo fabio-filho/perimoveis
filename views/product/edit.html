@@ -1,5 +1,17 @@
 {{extend 'layout_app.html'}}
 
+<script type="text/css">
+
+    .tales {
+      width: 100%;
+    }
+    .carousel-inner{
+      width:100%;
+      max-height: 200px !important;
+    }
+
+</script>
+
 
 <div class="row">
     <div class="box">
@@ -13,52 +25,171 @@
       </div>
 
       <div class="box">
-          <div class="col-md-6 col-md-offset-3">
-            {{=mForm}}
-            <br>
-            <br>
 
-            <div class="col-md-6 col-md-offset-3">
+        <div class="col-lg-12">
 
-              <a class="btn btn-default" role="button" data-toggle="collapse" href="#collapseAddImage"
-                            aria-expanded="false" aria-controls="collapseAddImage">
-                {{=T('Images')}}
-              </a>
+            <div class="panel panel-default">
 
-              <a class="btn btn-default" role="button" data-toggle="collapse" href="#collapseImage"
-                            aria-expanded="false" aria-controls="collapseImage">
-                {{=T('Add an image')}}
-              </a>
-
-            </div>
-
-
-            <div class="col-md-6 col-md-offset-3">
-
-              <div class="collapse" id="collapseAddImage">
-                <div class="well">
-                  {{=mImages}}
-                </div>
+              <div class="panel-heading">
+                <h5>{{=T('Editing')}}</h5>
               </div>
 
+              <div class="panel-body">
+                {{=mForm}}
+              </div>
 
-              <div class="collapse" id="collapseImage">
-                <div class="well">
-                  {{=mFormImage}}
-                </div>
-               </div>
-               
             </div>
 
-          </div>
+            <br>
+            <br>
+
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h5>{{=T('More options')}}</h5>
+              </div>
+
+              <div class="panel-body">
+                <a class="btn btn-default" role="button" data-toggle="collapse" href="#collapseImage"
+                                                    aria-expanded="false" aria-controls="collapseImage">
+                  {{=T('Add an image')}}
+                </a>
+
+
+                <div class="collapse" id="collapseImage" style="margin-top:10px;">
+                  <div class="well">
+                    {{=mFormImage}}
+                    <br>
+
+                  </div>
+                </div>
+
+                <div id="mEmpty">
+                </div>
+
+              </div>
+
+            </div>
+
+
+
+            {{if len(mRows)>0:}}
+                  <div class="col-md-6 col-md-offset-3" >
+
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h5>{{=T('Images added')}}</h5>
+                      </div>
+
+                      <div class="panel-body">
+                        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                            <!-- Indicators -->
+                            <ol class="carousel-indicators hidden-xs">
+                                {{for mIndex in range(0,len(mRows)):}}
+                                   {{if mIndex==0:}}
+                                       <li data-target="#carousel-example-generic" data-slide-to="{{=mIndex+1}}" class="active"></li>
+                                   {{else:}}
+                                       <li data-target="#carousel-example-generic" data-slide-to="{{=mIndex+1}}"></li>
+                                   {{pass}}
+                                 {{pass}}
+                            </ol>
+
+                            <!-- Wrapper for slides -->
+                            <div class="carousel-inner">
+                               {{for mIndex in range(0,len(mRows)):}}
+                                  {{if mIndex==0:}}
+                                      <div class="item active">
+                                  {{else:}}
+                                      <div class="item">
+                                  {{pass}}
+                                      <img src='{{=URL('app', 'download', args=[mRows[mIndex].mFile])}}' alt="">
+                                  </div>
+                                {{pass}}
+                            </div>
+
+                            <!-- Controls -->
+                            <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                                <span class="icon-prev"></span>
+                            </a>
+                            <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                                <span class="icon-next"></span>
+                            </a>
+
+                           </div>
+                        </div>
+
+                      </div>
+
+                    </div>
+
+
+                  </div>
+
+            {{pass}}
+
+        </div>
 
       </div>
+
 
 </div>
 
 
-<script>
+<script >
 
     document.getElementById('tbProducts_mPaymentInstallments').style="width:80px;"
+    document.getElementById('tbProducts_mPrice').style="width:140px;"
+
+
+    var mImageIndex = -1, mIndexTemp=0;
+    var mReaders = [];
+    var mCanLoadImage = false;
+    var mLength = -1;
+    var mInput = null;
+
+    setInterval(function(){
+
+        if(mCanLoadImage){
+          mCanLoadImage = false;
+          readURL(mInput);
+        }
+
+        console.log(mCanLoadImage);
+
+    }, 1000);
+
+    $("#tbProductsImageUploads_mTempImage").change(function(){
+
+        if (mImageIndex > -1){
+          for(var mIndex=0; mIndex <= mImageIndex; mIndex++){
+            document.getElementById('mImagePreview'+mIndex).remove()
+          }
+        }
+        mIndexTemp=0;
+        mInput = this;
+        readURL(this);
+    });
+
+
+    function readURL(input) {
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+              mHtml = '<div id="mImagePreview'+mIndexTemp+'" class="col-sm-6 col-md-4"><img id="mImage'+mIndexTemp+'" class="thumbnail" style="width:250px; height:150px;"/></div>';
+              document.getElementById('mEmpty').innerHTML += mHtml;
+              $('#mImage'+mIndexTemp).attr('src', e.target.result);
+
+              mIndexTemp++;
+              mCanLoadImage = true;
+              if(mIndexTemp >= mInput.files.length)
+                mCanLoadImage = false;
+            }
+
+            reader.readAsDataURL(input.files[mIndexTemp]);
+        }
+    };
+
+
 
 </script>
