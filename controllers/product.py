@@ -57,6 +57,7 @@ def edit():
     Validator.valide_args(1)
 
     db.tbProducts.id.readable = False
+    db.tbProducts.mIsVisibleToShelf.writable = True
 
     mForm=SQLFORM(db.tbProducts,
             db.tbProducts(request.args[0]),

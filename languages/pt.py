@@ -269,6 +269,7 @@
 'Videos': 'Videos',
 'View': 'Vista',
 'View Details': 'View Details',
+'Visisble to Shelf': 'Visisble to Shelf',
 'Welcome': 'Welcome',
 'Welcome %s': 'Bem-vindo(a) %s',
 'Welcome to Gluonization': 'Bem vindo ao Web2py',

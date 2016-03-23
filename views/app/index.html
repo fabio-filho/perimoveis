@@ -1,44 +1,118 @@
 {{extend 'layout_app.html'}}
 
+<!-- Custom styles for this template -->
+<link href="{{=URL('static', 'css/carousel.css')}}" rel="stylesheet">
+
 
 <div class="row">
-    <div class="box">
-        <div class="col-lg-12 text-center">
-            <div id="carousel-example-generic" class="carousel slide">
-                <!-- Indicators -->
-                <ol class="carousel-indicators hidden-xs">
-                    {{for mIndex in range(0,len(mRows)):}}
-                       {{if mIndex==0:}}
-                           <li data-target="#carousel-example-generic" data-slide-to="{{=mIndex+1}}" class="active"></li>
-                       {{else:}}
-                           <li data-target="#carousel-example-generic" data-slide-to="{{=mIndex+1}}"></li>
-                       {{pass}}
-                     {{pass}}
-                </ol>
 
-                <!-- Wrapper for slides -->
-                <div class="carousel-inner">
-                   {{for mIndex in range(0,len(mRows)):}}
-                      {{if mIndex==0:}}
-                          <div class="item active">
-                      {{else:}}
-                          <div class="item">
-                      {{pass}}
-                          <img class="img-responsive img-full" src='{{=URL('app', 'download', args=[mRows[mIndex].mImage])}}' alt="">
-                      </div>
-                    {{pass}}
-                </div>
+  <div class="box">
+      <div class="col-lg-12 text-center">
 
-                <!-- Controls -->
-                <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
-                    <span class="icon-prev"></span>
-                </a>
-                <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
-                    <span class="icon-next"></span>
-                </a>
-                
-               </div>
+        <div id="carousel-1" class="carousel slide">
+            <!-- Indicators -->
+            <ol class="carousel-indicators hidden-xs">
+                {{for mIndex in range(0,len(mRows)):}}
+                   {{if mIndex==0:}}
+                       <li data-target="#carousel-1" data-slide-to="{{=mIndex+1}}" class="active"></li>
+                   {{else:}}
+                       <li data-target="#carousel-1" data-slide-to="{{=mIndex+1}}"></li>
+                   {{pass}}
+                 {{pass}}
+            </ol>
+
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner">
+               {{for mIndex in range(0,len(mRows)):}}
+                  {{if mIndex==0:}}
+                      <div class="item active">
+                  {{else:}}
+                      <div class="item">
+                  {{pass}}
+                      <img class="img-responsive img-full" src='{{=URL('app', 'download', args=[mRows[mIndex].mImage])}}' alt="">
+                  </div>
+                {{pass}}
+
             </div>
+
+            <!-- Controls -->
+            <a class="left carousel-control" href="#carousel-1" data-slide="prev">
+                <span class="icon-prev"></span>
+            </a>
+            <a class="right carousel-control" href="#carousel-1" data-slide="next">
+                <span class="icon-next"></span>
+            </a>
+
+           </div>
         </div>
-    </div>
+
+
+      </div>
+  </div>
+
+
+{{if len(mProducts)>0:}}
+  <div class="box">
+      <div class="col-lg-12 text-center">
+
+        <div id="carousel-2" class="carousel slide" data-ride="carousel">
+          <!-- Indicators -->
+              <ol class="carousel-indicators hidden-xs">
+                  {{for mIndex in range(0,len(mProducts)):}}
+                     {{if mIndex==0:}}
+                         <li data-target="#carousel-2" data-slide-to="{{=mIndex+1}}" class="active"></li>
+                     {{else:}}
+                         <li data-target="#carousel-2" data-slide-to="{{=mIndex+1}}"></li>
+                     {{pass}}
+                   {{pass}}
+              </ol>
+
+              <div class="carousel-inner" role="listbox">
+
+                {{for mIndex in range(0,len(mProducts)):}}
+                   {{if mIndex==0:}}
+                       <div class="item active">
+                   {{else:}}
+                       <div class="item">
+                   {{pass}}
+                       <img class="first-slide" src="{{=URL('app', 'download', args=[mProductsImages[mIndex].mFile])}}" alt="First slide">
+                       <div class="container">
+                         <div class="carousel-caption">
+
+                          <div class="panel panel-default" style="float:right; background-image:url('{{=URL('static', 'img/shelf-item.jpg')}}');" >
+                            <div class="panel-body" style="background-color:rgba(255, 255, 255, 0.4);">
+                              <div class="col-md-1">
+                                  <h1> {{=mProducts[mIndex].mName}} </h1>
+                                  <h2 style="color:red;">{{=Utilities.get_beautiful_price(mProducts[mIndex].mPrice)}}</h2>
+                                  <h4 ><strong>{{=mProducts[mIndex].mPaymentInstallments}} <small>x</small> {{=Utilities.get_beautiful_price(int(mProducts[mIndex].mPrice/mProducts[mIndex].mPaymentInstallments))}}</strong></h4>
+                              </div>
+
+                              <div class="col-md-1">
+                                  <p><a class="btn btn-primary btn-lg" href="#" role="button">{{=T('Buy now')}}</a></p>
+                              </div>
+
+                            </div>
+                          </div>
+
+                         </div>
+                       </div>
+                     </div>
+                 {{pass}}
+
+              </div>
+              <a class="left carousel-control" href="#carousel-2" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+              </a>
+              <a class="right carousel-control" href="#carousel-2" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+              </a>
+            </div><!-- /.carousel -->
+
+
+      </div>
+  </div>
+{{pass}}
+
 </div>

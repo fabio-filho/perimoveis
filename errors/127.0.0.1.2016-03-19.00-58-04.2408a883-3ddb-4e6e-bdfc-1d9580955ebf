@@ -1,0 +1,21 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.NameError'> global name 'hashlib' is not defined"
+p3
+sS'layer'
+p4
+S'/Users/fabiofilho/Documents/Deployment/Web2Py/web2py/applications/perimoveis/controllers/app.py'
+p5
+sS'code'
+p6
+S'# -*- coding: utf-8 -*-\n\n\n\ndef index():\n\n    return dict(mRows=db(db.tbHomePageSlideResources.id>0).select())\n\n\ndef blog():\n\n    return dict()\n\n\n\ndef contact():\n\n    return dict()\n\n\n\ndef about():\n\n    return dict()\n\n\n\ndef products():\n    redirect(URL(\'product\', \'index\'))\n    return dict()\n\n\n\n\ndef download():\n    return response.download(request, db)\n\n\ndef test():\n    mRow = db(db.tbProductsImageUploads.id>0).select().first()\n    return md5(mRow.mFile)\n\n\ndef md5(fname):\n    hash_md5 = hashlib.md5()\n    with open(fname, "rb") as f:\n        for chunk in iter(lambda: f.read(4096), b""):\n            hash_md5.update(chunk)\n    return hash_md5.hexdigest()\n\nresponse._vars=response._caller(test)\n'
+p7
+sS'snapshot'
+p8
+(dp9
+sS'traceback'
+p10
+S'Traceback (most recent call last):\n  File "/Users/fabiofilho/Documents/Deployment/Web2Py/web2py/gluon/restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "/Users/fabiofilho/Documents/Deployment/Web2Py/web2py/applications/perimoveis/controllers/app.py", line 51, in <module>\n  File "/Users/fabiofilho/Documents/Deployment/Web2Py/web2py/gluon/globals.py", line 412, in <lambda>\n    self._caller = lambda f: f()\n  File "/Users/fabiofilho/Documents/Deployment/Web2Py/web2py/applications/perimoveis/controllers/app.py", line 41, in test\n    return md5(mRow.mFile)\n  File "/Users/fabiofilho/Documents/Deployment/Web2Py/web2py/applications/perimoveis/controllers/app.py", line 45, in md5\n    hash_md5 = hashlib.md5()\nNameError: global name \'hashlib\' is not defined\n'
+p11
+s.

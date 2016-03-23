@@ -19,7 +19,7 @@ db.define_table('tbProducts',
                         requires=IS_IN_SET([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]),
                         #labels=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
                         label=T('Payment Installments')),
-            Field('mIsVisibleToShelf', 'boolean', default=False, writable=False, readable=False),
+            Field('mIsVisibleToShelf', 'boolean', default=False, writable=False, readable=False, label=T('Visisble to Shelf')),
             auth.signature
 )
 
