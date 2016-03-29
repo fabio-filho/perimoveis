@@ -64,7 +64,7 @@ auth.settings.extra_fields['auth_user']= [
 ]
 
 ## create all tables needed by auth if not custom tables
-auth.define_tables(username=False, signature=False)
+auth.define_tables(username=True)
 
 ## configure email
 mail = auth.settings.mailer
@@ -77,6 +77,7 @@ auth.settings.registration_requires_verification = False
 auth.settings.registration_requires_approval = False
 auth.settings.reset_password_requires_verification = True
 
+T.force('pt-br')
 #########################################################################
 ## Define your tables below (or better in another model file) for example
 ##

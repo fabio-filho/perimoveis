@@ -45,11 +45,11 @@
               <div class="modal-content">
                 <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  <h4 class="modal-title" id="myModalLabel{{=mRow.id}}">{{=T('Are you sure you want to buy this item')}} <b>{{=mRow.mName}}</b> ?</h4>
+                  <h4 class="modal-title" id="myModalLabel{{=mRow.id}}">{{=T('Are you sure you want to buy this item')}}: <b>{{=mRow.mName}}</b> ?</h4>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-default" data-dismiss="modal">{{=T('Close')}}</button>
-                  <a href="{{=URL('manager', 'remove_image', args=[mRow.id])}}" class="btn btn-success">{{=T('Buy')}}</a>
+                  <a href="#" class="btn btn-success">{{=T('Buy')}}</a>
                 </div>
               </div>
             </div>

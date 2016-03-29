@@ -63,7 +63,7 @@ def edit():
             db.tbProducts(request.args[0]),
             submit_button=T('Save changes'))
 
-    Validator.form_process(mForm, URL('product', 'manager'))
+    Validator.form_process(mForm, URL('product', 'edit', args=[request.args[0]]))
 
     mImages = db(db.tbProductsImageUploads.mProduct==request.args[0]).select()
 
@@ -104,3 +104,27 @@ def get_image_add_form(mProductId):
             mForm.errors.mFiles = "No files selected"
 
       return mForm
+
+
+
+
+@auth.requires_login()
+def remove():
+
+    Validator.admin()
+    Validator.valide_args(1)
+
+    mProduct = db.tbProducts(request.args[0])
+    print "#============"
+    print mProduct
+    print len(db(db.tbProductsImageUploads.mProduct == mProduct.id).select())
+
+    for mProductUpload in db(db.tbProductsImageUploads.mProduct == mProduct.id).select():
+        print mProductUpload
+        MyFile(request.folder + 'uploads/'+mProductUpload.mThumbnail).remove()
+
+    db(db.tbProductsImageUploads.mProduct == mProduct.id).delete()
+    db(db.tbProducts.id==mProduct.id).delete()
+
+    redirect(URL('product', 'manager'))
+    pass
