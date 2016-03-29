@@ -84,7 +84,7 @@
                                 <h1> {{=mProducts[mIndex].mName}} </h1>
                                 <h2 >{{=Utilities.get_beautiful_price(mProducts[mIndex].mPrice)}}</h2>
                                 <h4 ><strong>{{=mProducts[mIndex].mPaymentInstallments}} <small>x</small> {{=Utilities.get_beautiful_price(int(mProducts[mIndex].mPrice/mProducts[mIndex].mPaymentInstallments))}}</strong></h4>
-                                <p><a class="btn btn-primary btn-lg" href="#" role="button">{{=T('Buy now')}}</a></p>
+                                <p><a class="btn btn-primary btn-lg" href="{{=URL('product', 'view', args=[mProducts[mIndex].id])}}" role="button">{{=T('Buy now')}}</a></p>
                             </div>
                           </div>
 
